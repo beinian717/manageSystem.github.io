@@ -53,6 +53,7 @@
 
       <!-- main部分 -->
       <el-main>
+        <!-- 路由的占位符 -->
         <router-view></router-view>
       </el-main>
     </el-container>

@@ -283,22 +283,25 @@ export default {
     addDialogClose() {
       this.$refs.addFormRef.resetFields();
     },
-    // 点击对话框的确认按钮
+    // 点击添加用户对话框的确认按钮
     addUser() {
-      // this.$refs.addFormRef.validate((valid) => {
-      // console.log(valid);
-      // if (valid == true) {
+      // this.$refs.addFormRef.validate(async (valid) => {
+      //   console.log(valid);
+      //   if (!valid) {
+      //     let { data: res } = await this.$http.post("users", this.addForm);
+      //     console.log(res);
+      //   }
+      // });
+
       this.$http.post("users", this.addForm).then((res) => {
         console.log(res);
         if (res.data.status != 201) {
           this.$message.error("添加用户失败");
         }
-        this.$message.success("添加用户成功");
-        this.addDialogVisible = false;
-        this.getUserList();
+      this.$message.success("添加用户成功");
+      this.addDialogVisible = false;
+      this.getUserList();
       });
-      // }
-      // });
     },
     // 展示编辑用户的对话框
     async showEditDialog(id) {
