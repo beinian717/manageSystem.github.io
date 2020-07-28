@@ -43,7 +43,7 @@ export default {
         // 验证用户名是否合法
         username: [
           { required: true, message: "登录名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 10 个字符", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
         ],
         // 验证密码是否合法
         password: [
@@ -59,19 +59,18 @@ export default {
     login() {
       // valid对整个表单进行校验的方法，
       this.$refs.loginFormRef.validate(async (valid) => {
-        // console.log(valid);
+        console.log(valid);
         if (!valid) return;
         const { data: res } = await this.$http.post("login", this.loginForm);
-        // console.log(res);
+        console.log(res);
         if (res.meta.status !== 200) return this.$message.error("登陆失败!");
-        this.$message.success("登陆成功!")
+        this.$message.success("登陆成功!");
         // 1 将登陆成功之后的token，保存到客户端的sessionStorage中
-            // 1.1项目中除了登录之外的其他API接口，必须在登陆之后才能访问
-            // 1.2token只应当在当前网站打开期间生效，所以将token保存在sessionStorage中
-            // console.log(res)
-            window.sessionStorage.setItem("token",res.data.token);
+        // 1.1项目中除了登录之外的其他API接口，必须在登陆之后才能访问
+        // 1.2token只应当在当前网站打开期间生效，所以将token保存在sessionStorage中
+        window.sessionStorage.setItem("token", res.data.token);
         // 2、通过编程式导航跳转到后台主页，路由地址是/home
-        this.$router.push('/home');
+        this.$router.push("/home");
       });
     },
     // 重置按钮

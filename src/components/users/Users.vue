@@ -285,24 +285,20 @@ export default {
     },
     // 点击对话框的确认按钮
     addUser() {
-      //   this.$refs.addFormRef.validate((valid) => {
+      // this.$refs.addFormRef.validate((valid) => {
       // console.log(valid);
-      // if (valid == false){
-      //     return ;
-      // }
-      // let { data: res } = await this.$http.post("users", this.addForm);
-      // console.log(res);
+      // if (valid == true) {
       this.$http.post("users", this.addForm).then((res) => {
         console.log(res);
-        if (res.meta.status !== 201) {
+        if (res.data.status != 201) {
           this.$message.error("添加用户失败");
         }
         this.$message.success("添加用户成功");
         this.addDialogVisible = false;
-        // 重新获取用户列表数据
         this.getUserList();
       });
-      //   });
+      // }
+      // });
     },
     // 展示编辑用户的对话框
     async showEditDialog(id) {
@@ -319,23 +315,37 @@ export default {
     },
     //修改用户信息并验证
     editUserInfo() {
-      this.$refs.editFormRef.validate(async (valid) => {
-        // if(!valid)return;
-        const { data: res } = await this.$http.put(
-          "users/" + this.editForm.id,
-          {
-            email: this.editForm.email,
-            mobile: this.editForm.mobile,
+      // this.$refs.editFormRef.validate(async (valid) => {
+      //   // if(!valid)return;
+      //   const { data: res } = await this.$http.put(
+      //     "users/" + this.editForm.id,
+      //     {
+      //       email: this.editForm.email,
+      //       mobile: this.editForm.mobile,
+      //     }
+      //   );
+      //   console.log(res);
+      //   if (res.meta.statu != 200) {
+      //     return this.$message.error("更新用户信息失败");
+      //   }
+      //   this.editDialogVisible = false;
+      //   this.getUserList();
+      //   this.$message.success("更新用户信息成功");
+      // });
+      this.$http
+        .put("users/" + this.editForm.id, {
+          email: this.editForm.email,
+          mobile: this.editForm.mobile,
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.status != 200) {
+            this.$message.error("修改用户失败");
           }
-        );
-        console.log(res);
-        if (res.meta.statu != 200) {
-          return this.$message.error("更新用户信息失败");
-        }
-        this.editDialogVisible = false;
-        this.getUserList();
-        this.$message.success("更新用户信息成功");
-      });
+          this.$message.success("修改用户成功");
+          this.editDialogVisible = false;
+          this.getUserList();
+        });
     },
     // 根据id删除用户信息
     async removeUserById(id) {
@@ -353,12 +363,12 @@ export default {
       if (confirmResult != "confirm") {
         return this.$message.info("已取消删除");
       }
-     const {data:res} = await this.$http.delete('users/'+id)
-     if(res.meta.status!=200){
-         return this.$message.error("删除用户失败")
-     }
-     this.$message.success("删除用户成功")
-     this.getUserList();
+      const { data: res } = await this.$http.delete("users/" + id);
+      if (res.meta.status != 200) {
+        return this.$message.error("删除用户失败");
+      }
+      this.$message.success("删除用户成功");
+      this.getUserList();
     },
   },
   created() {
