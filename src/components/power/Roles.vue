@@ -76,8 +76,9 @@
         </el-table-column>
       </el-table>
     </el-card>
+
     <!-- 分配权限的对话框部分 -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
+    <el-dialog title="提示" :visible.sync="roleDialogVisible" width="50%" :before-close="handleClose">
       <span>这是一段信息</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -93,7 +94,7 @@ export default {
   data() {
     return {
       rolesList: [], //角色列表数据
-      setRightDialogVisible:false, //显示隐藏分配权限对话框
+      roleDialogVisible:false, //显示隐藏分配权限对话框
     };
   },
   computed: {},
@@ -134,7 +135,9 @@ export default {
       role.children = res.data;
     },
     // 展示分配权限的对话框
-    showSetRightDialog() {},
+    showSetRightDialog() {
+      this.roleDialogVisible=true;
+    },
   },
   mounted() {
     //   获取所有角色列表数据
